@@ -1,38 +1,406 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
   text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Controls */
+.controls-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #667eea;
+}
+
+.clear-search {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+}
+
+.filters-sort {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-control select {
+  padding: 8px 12px;
+  border: 1px solid #e1e5e9;
+  border-radius: 6px;
+  background: white;
+}
+
+/* Filter Panel */
+.filter-panel {
+  position: relative;
+}
+
+.filter-toggle {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.filter-toggle:hover {
+  background: #5a6fd8;
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  border: 1px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.action-btn:hover {
+  background: #667eea;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.field-checkbox:hover {
+  background: #f8f9fa;
+}
+
+.field-checkbox input {
+  margin: 0;
+}
+
+/* Results Info */
+.results-info {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Airlines Grid */
+.airlines-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.airline-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.airline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.airline-card.expanded {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  cursor: pointer;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.field-count {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.expand-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-content {
+  padding: 0;
+}
+
+.preview-fields {
+  padding: 20px;
+}
+
+.field-preview {
+  margin-bottom: 10px;
+}
+
+.field-preview:last-child {
+  margin-bottom: 0;
+}
+
+.field-name {
+  font-weight: bold;
+  color: #667eea;
+  margin-right: 8px;
+}
+
+.field-value {
+  color: #666;
+}
+
+.expanded-content {
+  padding: 20px;
+}
+
+.field-group {
+  margin-bottom: 25px;
+}
+
+.field-group:last-child {
+  margin-bottom: 0;
+}
+
+.field-group h4 {
+  color: #333;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #667eea;
+}
+
+.field-group.highlighted h4 {
+  color: #f5576c;
+  border-bottom-color: #f5576c;
+}
+
+.field-item {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.field-item.highlighted {
+  background: #fff3cd;
+  border-left-color: #ffc107;
+}
+
+.field-item:last-child {
+  margin-bottom: 0;
+}
+
+.field-item strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.field-text {
+  color: #555;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.url-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.url-link:hover {
+  background: #5a6fd8;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.no-results h3 {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.no-results p {
+  color: #888;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .filters-sort {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-dropdown {
+    position: static;
+    margin-top: 10px;
+  }
+  
+  .fields-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .card-actions {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .airlines-grid {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
 }
